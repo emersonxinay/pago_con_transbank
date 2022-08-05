@@ -34,13 +34,25 @@ class Orden < ApplicationRecord
   end
 
   def agregar_producto(id_producto, cantidad)
+    # producto = Producto.find(id_producto)
+    # if producto && producto.stock > 0
+    #   detalles_ordenes.create(
+    #     producto_id: producto.id, 
+    #     cantidad: cantidad, 
+    #     precio: producto.precio
+    #   )
+    #   calcular_total
+    # end
+    
     producto = Producto.find(id_producto)
     if producto && producto.stock > 0
-      detalles_ordenes.create(
-        producto_id: producto.id, 
-        cantidad: cantidad, 
-        precio: producto.precio
-      )
+      producto_econtrado = detalles_ordenes.find_by(producto_id: producto.id)
+      if producto_econtrado
+        producto_econtrado.cantidad += 1
+        producto_econtrado.save
+      else
+        detalles_ordenes.create(producto_id: producto.id, cantidad: cantidad, precio: producto.precio)
+      end
       calcular_total
     end
   end
