@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2022_07_14_002243) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "administradores", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -31,8 +34,8 @@ ActiveRecord::Schema.define(version: 2022_07_14_002243) do
   end
 
   create_table "categorias_productos", id: false, force: :cascade do |t|
-    t.integer "categoria_id", null: false
-    t.integer "producto_id", null: false
+    t.bigint "categoria_id", null: false
+    t.bigint "producto_id", null: false
     t.index ["categoria_id", "producto_id"], name: "index_categorias_productos_on_categoria_id_and_producto_id"
     t.index ["producto_id", "categoria_id"], name: "index_categorias_productos_on_producto_id_and_categoria_id"
   end
@@ -40,8 +43,8 @@ ActiveRecord::Schema.define(version: 2022_07_14_002243) do
   create_table "detalles_ordenes", force: :cascade do |t|
     t.integer "cantidad"
     t.decimal "precio"
-    t.integer "producto_id", null: false
-    t.integer "orden_id", null: false
+    t.bigint "producto_id", null: false
+    t.bigint "orden_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["orden_id"], name: "index_detalles_ordenes_on_orden_id"
@@ -56,7 +59,7 @@ ActiveRecord::Schema.define(version: 2022_07_14_002243) do
   end
 
   create_table "ordenes", force: :cascade do |t|
-    t.integer "usuario_id", null: false
+    t.bigint "usuario_id", null: false
     t.string "numero"
     t.decimal "total"
     t.string "estado"
@@ -69,8 +72,8 @@ ActiveRecord::Schema.define(version: 2022_07_14_002243) do
     t.string "estado"
     t.decimal "total"
     t.string "token"
-    t.integer "orden_id", null: false
-    t.integer "metodo_pago_id", null: false
+    t.bigint "orden_id", null: false
+    t.bigint "metodo_pago_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["metodo_pago_id"], name: "index_pagos_on_metodo_pago_id"
